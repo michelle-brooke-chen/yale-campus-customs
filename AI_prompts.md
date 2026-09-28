@@ -92,3 +92,4 @@ A record of every prompt entered during this homework session, organized by sect
 4. Do requirements.txt need to be in backend and README.md need to be in frontend? Can they be outside the folders?
 5. Can you move them both and adjust as needed?
 6. Thanks! Now please push hw4 to a public GitHub repo. Use .gitignore for my real .env, campus_customs.db, and product images. Make sure .env.example is included with placeholders.
+7. Ready, go!
