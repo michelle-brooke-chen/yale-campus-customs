@@ -1,0 +1,25 @@
+# Secrets: real keys and the session-signing secret (keep the example file)
+.env
+.env.*
+!.env.example
+.session_secret
+
+# Databases: the original data and the clean copy, which holds accounts,
+# password hashes, and saved chats
+*.db
+
+# Product images
+data/products/
+data/products_original/
+
+# Python and Node environments, caches, and builds
+.venv/
+.venv-*/
+__pycache__/
+*.pyc
+node_modules/
+dist/
+
+# Local editor and tool files
+.claude/
+.DS_Store

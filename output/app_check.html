@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Campus Customs — App Check (Problem 11)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Quicksand:wght@600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --navy: #1b3a5b;
+      --blue: #4a90d9;
+      --sky: #eaf3ff;
+      --ink: #35485e;
+      --muted: #6d7d90;
+      --border: #dde9f6;
+      --pass: #1b6b3a;
+      --pass-bg: #e3f4e8;
+      --warn: #8a5a00;
+      --warn-bg: #fff4d6;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Nunito', system-ui, sans-serif;
+      line-height: 1.6;
+      color: var(--ink);
+      background: #fff;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 3rem 1.25rem 4rem;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: 'Quicksand', 'Nunito', sans-serif;
+      color: var(--navy);
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin: 0 0 0.5rem;
+    }
+
+    h2 {
+      margin: 3rem 0 0.75rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .eyebrow {
+      margin: 0;
+      color: var(--blue);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .meta {
+      color: var(--muted);
+      margin: 0 0 1.5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.95rem;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: var(--sky);
+      color: var(--navy);
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 0.1rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .pass {
+      background: var(--pass-bg);
+      color: var(--pass);
+    }
+
+    .warn {
+      background: var(--warn-bg);
+      color: var(--warn);
+    }
+
+    figure {
+      margin: 1.5rem 0;
+    }
+
+    figure img {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgb(27 58 91 / 0.08);
+    }
+
+    figcaption {
+      margin-top: 0.5rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    blockquote {
+      margin: 1rem 0;
+      padding: 0.75rem 1rem;
+      background: var(--sky);
+      border-left: 4px solid var(--blue);
+      border-radius: 8px;
+    }
+
+    code {
+      background: var(--sky);
+      padding: 0.05rem 0.35rem;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">Problem 11 · Site testing</p>
+    <h1>Campus Customs App Check</h1>
+    <p class="meta">
+      Tested September 28, 2026 on the live local site (React + Vite on <code>localhost:5173</code>,
+      FastAPI + PydanticAI agent on <code>localhost:8000</code>, Claude via Portkey), driven in
+      headless Chrome at 1280×820. Every value shown on the site was compared against
+      <code>output/campus_customs_clean.db</code>.
+    </p>
+
+    <table>
+      <thead>
+        <tr><th>Check</th><th>Result</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1. Chat reports an item's stock and price</td><td><span class="pill pass">Pass</span> matches DB exactly</td></tr>
+        <tr><td>2. Category question shows dynamic result cards</td><td><span class="pill pass">Pass</span> 11 of 11 quarter-zips</td></tr>
+        <tr><td>3. Usability feature: search, filter, and sort</td><td><span class="pill pass">Pass</span> 7 of 7 hoodies, correct order</td></tr>
+        <tr><td>Issue found: chat showed raw Markdown</td><td><span class="pill pass">Fixed</span> replies now render bold and lists</td></tr>
+      </tbody>
+    </table>
+
+    <h2>1. Chat checks an item's inventory</h2>
+    <blockquote>“How many Benjamin Franklin Fleece Jackets do you have in each size, and what is the price?”</blockquote>
+    <figure>
+      <img src="app_check_images/1_inventory_chat.png" alt="Bulldog Assistant listing price and stock by size for the Benjamin Franklin Fleece Jacket" />
+      <figcaption>
+        The assistant replies with the price and the stock for every size, marking the empty sizes
+        as sold out. It also attaches a product card and shows it on the
+        Products page.
+      </figcaption>
+    </figure>
+    <table>
+      <thead>
+        <tr><th></th><th>Price</th><th>XS</th><th>S</th><th>M</th><th>L</th><th>XL</th><th>XXL</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Database</td><td>$98.00</td><td>0</td><td>12</td><td>5</td><td>2</td><td>12</td><td>0</td></tr>
+        <tr><td>Chat reply</td><td>$98.00</td><td>Sold out</td><td>12</td><td>5</td><td>2</td><td>12</td><td>Sold out</td></tr>
+      </tbody>
+    </table>
+
+    <h2>2. Dynamic search-result cards from a category question</h2>
+    <blockquote>“What quarter-zips do you have?”</blockquote>
+    <figure>
+      <img src="app_check_images/2_category_cards.png" alt="Chat reply listing quarter-zips while the Products page shows matching cards" />
+      <figcaption>
+        As soon as the reply arrives, the site opens the Products page and fills a
+        “From your chat” panel with the matching cards; the same items appear as mini cards in the chat.
+      </figcaption>
+    </figure>
+    <figure>
+      <img src="app_check_images/3_category_panel.png" alt="Results panel with quarter-zip product cards" />
+      <figcaption>
+        With the chat closed, the panel shows all 11 quarter-zips at $72.00, exactly the 11 rows with
+        <code>category = 'quarter-zip'</code> in the database, with a “Clear · show all” button to go back to the full catalogue.
+      </figcaption>
+    </figure>
+    <figure>
+      <img src="app_check_images/4_card_detail.png" alt="Single-item page for the Benjamin Franklin Quarter-Zip" />
+      <figcaption>
+        Clicking a dynamic card opens the full single-item page with the large image, description,
+        price, and size-by-size stock (51 in stock across 5 of 6 sizes, matching the database).
+      </figcaption>
+    </figure>
+
+    <h2>3. Usability feature: search, category filter, and sort (Problem 9, FE1)</h2>
+    <figure>
+      <img src="app_check_images/5_filter_sort.png" alt="Products page filtered to sports hoodies sorted by price" />
+      <figcaption>
+        Searching “sports”, choosing the <em>hoodie</em> category, and sorting by price (low to high)
+        instantly narrows 102 products to 7. The $45 Tennis hoodie leads, followed by the six $68
+        hoodies, and each card shows its stock badge (Problem 9, FE2).
+      </figcaption>
+    </figure>
+    <table>
+      <thead>
+        <tr><th></th><th>Items</th><th>First result</th><th>Order</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Database query</td><td>7</td><td>Yale Sports Hoodie Tennis, $45.00</td><td>$45, then six at $68</td></tr>
+        <tr><td>Products page</td><td>7 items of 102</td><td>Yale Sports Hoodie Tennis, $45.00</td><td>$45, then six at $68</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Issue found and fixed</h2>
+    <p>
+      <span class="pill pass">Fixed</span> The first test run showed the chat bubble printing the
+      agent's Markdown as plain text, so shoppers saw <code>**$98**</code> and <code>- **XS:**</code>
+      instead of bold text and bullets. The data was correct; only the formatting was wrong. The chat
+      widget now renders the agent's Markdown (bold, italics, bullet and numbered lists, paragraphs)
+      with a small built-in renderer that creates React elements rather than raw HTML
+      (<code>frontend/src/components/ChatMarkdown.tsx</code>). Screenshots 1 and 2 were retaken after the fix.
+    </p>
+  </main>
+</body>
+</html>
